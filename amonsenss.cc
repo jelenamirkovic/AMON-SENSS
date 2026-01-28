@@ -745,6 +745,7 @@ void instant_detect(cell* c, double ltime, int i, int id)
 	    {
 	      // Signal attack detection 
 	      is_attack[id][i] = true;
+
 	      detection_time[id][i] = ltime;
 	      if (verbose)
 		cout<<"id="<<id<<" AT: Attack detected on "<<i<<" but not reported yet vol "<<c->databrick_p[i]<<" oci "<<c->databrick_s[i]<<" min oci "<<int(parms["min_oci"])<<endl;
@@ -1252,7 +1253,7 @@ void detect_attack(cell* c, double ltime, int id)
   pthread_mutex_lock(&final_lock);
   int BRICKF = BRICK_FINAL + id*13*NUMF;
   pthread_mutex_unlock(&final_lock);
-  
+
   // For each bin
   for (int i=0;i<BRICKF;i++)
     {
