@@ -7,7 +7,7 @@
 
 $|=1;
 
-$DELAY_START = 1;
+$DELAY_START = 0;
 $DELAY_END = 300;
 $RATE = 0;
 $UPDATE = 0;
