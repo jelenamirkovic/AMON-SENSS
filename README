@@ -3,79 +3,43 @@ creation of signatures for attack filtering. Signatures and alerts are
 exported in real time into alerts.txt file. You will soon discover when
 you run this tool that there are many attacks that get detected. This is
 an unfortunate fact -- today's traffic is often one-way and has many
-anomalies that AMON-SENSS picks up. You can use read_alerts tool to narrow
-down just to attacks for which we have high confidence. 
+anomalies that AMON-SENSS picks up.
 
-==== INSTALLATION ====
+==== NOTES FOR EVALUATORS ===
 
-See the INSTALL file for detailed information about how to configure
-and install AMON-SENSS.
+Please allocate an XDC on SPHERE, clone AMON-SENSS repo, then within it run
 
-Run the Perl script autoconfig to configure the parameters via a dialogue. 
-Specifically, parameter min_oci will govern how large an estimated attack's
-packet rate must be to warrant printing an alert. If you are seeing too many
-alerts try specifying a higher value for min_oci. However, you can always
-increase RATE parameter in read_alerts to only focus on high-rate attacks.
+git checkout example1
+git pull
+
+After that run
+
+/share/startexp -n amonsess -t topology.model
+
+Once the experiment is allocated and attached SSH to the node by doing
+
+ssh a
+
+Clone the repo again on that node, and run
+
+git checkout example1
+git pull
+
+Then run
+
+bash install
 
 ==== RUNNING ====
 
-To run please specify prefixes you want to protect in localprefs.txt file.
-A sample file is provided. Replace its contents with your own.
+To check claim run
 
-Service ports of interest are in services.txt file. You don't need to change
-this file.
+bash claim1.sh
 
-Typical usage:
-  ./amonsenss -r /folder-w-nfdump -F nf -f > /dev/null
+Once the code indicates that it has finished press CTRL-C to exit.
 
-AMON-SENSS expects as input one or more files with Netflow records
-(nfdump or flow-tools format), pcap or Flowride records.
-If you specify a folder holding these files, possibly in some subfolders,
-the program will read all the folder(s)
-contents, sort by file name and process files in this order.
+Then run
 
-AMON-SENSS produces alerts in alerts.txt file in real time. Ongoing attacks
-will result in steady stream of alerts. AMON-SENSS uses a simple bash script -- rotate --
-to rotate this file.
+perl sum_alerts alerts.txt
 
-If you run the code with -v flag, it will also produce debugging output, which is
-very verbose. So use this option sparingly.
-
-Use read_alerts tool to get condensed START/STOP messages for attacks.
-
-perl read_alerts alerts.txt
-
-This tool will read alerts.txt on ongoing basis and produce human-readable,
-low volume of actionable alerts. If you rotate alerts.txt you will need to
-restart read_alerts as well.
-
-==== OTHER ====
-
-To understand how AMON-SENSS works download the document
-http://steel.isi.edu/projects/SENSS/amon-senss.pdf
-
-AMON-SENSS has a Web page, with accompanying tools that can help you respond
-to attacks that are detected (although many are research grade)
-
-   https://steel.isi.edu/projects/SENSS/
-
-For any questions please reach out to Jelena Mirkovic  <sunshine@isi.edu>
-
-=======================================================================
-
-
- Copyright (C) 2018 University of Southern California.
-
- This program is free software; you can redistribute it and/or
- modify it under the terms of the GNU General Public License,
- version 2, as published by the Free Software Foundation.
-
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License along
- with this program; if not, write to the Free Software Foundation, Inc.,
- 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+and it should print out one attack detected with the signature of UDP flood.
 
