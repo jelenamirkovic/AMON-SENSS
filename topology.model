@@ -1,0 +1,4 @@
+from mergexp import *
+net = Network('hello-world', addressing==ipv4, routing==static)
+nodes = [net.node(name) for name in ['a']]
+experiment(net)
